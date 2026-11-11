@@ -153,11 +153,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .fbadge{position:absolute;top:10px;right:10px;background:#E8B04B;color:#0d1b24;font:700 11px var(--f-sans);letter-spacing:.12em;text-transform:uppercase;padding:6px 10px;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
 .rcase{pointer-events:auto;margin-top:14px;padding:8px 14px;border-radius:999px;border:1px solid #E8B04B;background:rgba(232,176,75,.14);color:var(--cream);font:600 14px var(--f-sans);cursor:pointer}
 .rcase:hover{background:rgba(232,176,75,.28)}
-.embeds{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,220px));gap:16px;margin:18px 0;align-items:start;justify-content:start}
-.emb .instagram-media{transform-origin:top left}
+.embeds{display:flex;flex-wrap:wrap;gap:14px;margin:18px 0;align-items:flex-start}
+.emb{width:165px;flex:none}
+.emb.ig .igz{width:330px;zoom:.5}
+.emb iframe:not(.instagram-media){width:165px}
 .emb{margin:0}
 .emb iframe{width:100%;aspect-ratio:9/16;border:0;border-radius:12px;display:block;background:#000}
-.emb .instagram-media{min-width:0!important;width:100%!important;max-width:100%!important;margin:0!important;border-radius:12px!important}
+.emb .instagram-media{min-width:326px!important;width:330px!important;max-width:330px!important;margin:0!important;border-radius:12px!important}
 .emb figcaption{font-size:12px;color:var(--panel-dim);margin-top:8px}
 .cta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:26px 0 8px;padding:22px 26px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.04)}
 .cta strong{font-family:var(--f-serif);font-weight:600;font-size:clamp(22px,2.6vw,30px)}
@@ -405,7 +407,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .col h3{font-size:34px}
   .fbadge{font-size:9px;padding:5px 8px;top:8px;right:8px}
   .keep{display:none}
-  .embeds{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .embeds{gap:10px}
+  .emb{width:calc(50% - 5px)}
+  .emb.ig .igz{zoom:.46}
+  .emb iframe:not(.instagram-media){width:100%}
   .keyn{font-size:10px}
   .keyn .kbtn{font-size:13px}
   .col{padding-left:22px;padding-right:22px}
@@ -1031,7 +1036,7 @@ function block([t,v]){
   if(t==="marquee"){const im=v.map(k=>`<img src="${GIMG[k]}" alt="Photo by Jongwon" loading="lazy">`).join("");return `<div class="marq"><div class="mtrack" style="--dur:${v.length*7}s">${im}${im.replace(/alt="Photo by Jongwon"/g,'alt="" aria-hidden="true"')}</div></div>`;}if(t==="img")return `<div class="ph">${v}</div>`;
   if(t==="figure"){const im=`<img src="${GIMG[v[0]]}" alt="${v[1].replace(' ↗','')}" loading="lazy">`;return `<figure class="fig ${v[2]||""}">${v[3]?`<a class="figlink" href="${v[3]}" target="_blank" rel="noopener">${im}</a>`:im}<figcaption>${v[1]}</figcaption></figure>`;}
   if(t==="bars")return `<div class="bars"><div class="bkey"><span><i class="b0"></i>2024–25 season</span><span><i class="b1"></i>Oct 2025 – Jan 2026</span></div>${v.map(([l,a,b,x,y])=>`<div class="bm"><div class="bl">${l}</div><div class="br"><i class="b0" style="width:${(x/y*100).toFixed(1)}%"></i><span>${a}</span></div><div class="br"><i class="b1" style="width:100%"></i><span>${b}</span></div></div>`).join("")}</div>`;
-  if(t==="pvid")return `<figure class="pvid"><video src="${GIMG[v[0]]}" poster="${GIMG[v[0].replace('v_','p_')]}" autoplay muted loop playsinline aria-label="${v[1]}"></video><figcaption>${v[1]}</figcaption></figure>`;if(t==="step")return `<h5 class="step"><span>Step ${v[0]}</span>${v[1]}</h5>`;if(t==="cta")return `<div class="cta"><strong>${v[0]}</strong><button type="button" data-contact>${v[1]} →</button></div>`;if(t==="embeds")return `<div class="embeds">${v.map(([k,u,c])=>k==="yt"?`<figure class="emb"><iframe src="https://www.youtube.com/embed/${u}?rel=0" title="${c}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><figcaption>${c}</figcaption></figure>`:`<figure class="emb ig"><blockquote class="instagram-media" data-instgrm-permalink="${u}" data-instgrm-version="14"><a href="${u}" target="_blank" rel="noopener">${c}</a></blockquote><figcaption>${c}</figcaption></figure>`).join("")}</div>`;if(t==="vsplit")return `<div class="vsplit"><figure class="pvid"><video src="${GIMG[v[0]]}" poster="${GIMG[v[0].replace('v_','p_')]}" autoplay muted loop playsinline aria-label="${v[1]}"></video><figcaption>${v[1]}</figcaption></figure><p>${v[2]}</p></div>`;if(t==="pair")return `<div class="gal pair">${v.map(([k,c])=>`<figure><img src="${GIMG[k]}" alt="${c}" loading="lazy"><figcaption>${c}</figcaption></figure>`).join("")}</div>`;if(t==="media")return `<div class="gal phones">${v.map(([k,c,ty])=>`<figure>${ty==="v"?`<video src="${GIMG[k]}" poster="${GIMG[k.replace('v_','p_')]}" autoplay muted loop playsinline aria-label="${c}"></video>`:`<img src="${GIMG[k]}" alt="${c}" loading="lazy">`}<figcaption>${c}</figcaption></figure>`).join("")}</div>`;
+  if(t==="pvid")return `<figure class="pvid"><video src="${GIMG[v[0]]}" poster="${GIMG[v[0].replace('v_','p_')]}" autoplay muted loop playsinline aria-label="${v[1]}"></video><figcaption>${v[1]}</figcaption></figure>`;if(t==="step")return `<h5 class="step"><span>Step ${v[0]}</span>${v[1]}</h5>`;if(t==="cta")return `<div class="cta"><strong>${v[0]}</strong><button type="button" data-contact>${v[1]} →</button></div>`;if(t==="embeds")return `<div class="embeds">${v.map(([k,u,c])=>k==="yt"?`<figure class="emb"><iframe src="https://www.youtube.com/embed/${u}?rel=0" title="${c}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><figcaption>${c}</figcaption></figure>`:`<figure class="emb ig"><div class="igz"><blockquote class="instagram-media" data-instgrm-permalink="${u}" data-instgrm-version="14"><a href="${u}" target="_blank" rel="noopener">${c}</a></blockquote></div><figcaption>${c}</figcaption></figure>`).join("")}</div>`;if(t==="vsplit")return `<div class="vsplit"><figure class="pvid"><video src="${GIMG[v[0]]}" poster="${GIMG[v[0].replace('v_','p_')]}" autoplay muted loop playsinline aria-label="${v[1]}"></video><figcaption>${v[1]}</figcaption></figure><p>${v[2]}</p></div>`;if(t==="pair")return `<div class="gal pair">${v.map(([k,c])=>`<figure><img src="${GIMG[k]}" alt="${c}" loading="lazy"><figcaption>${c}</figcaption></figure>`).join("")}</div>`;if(t==="media")return `<div class="gal phones">${v.map(([k,c,ty])=>`<figure>${ty==="v"?`<video src="${GIMG[k]}" poster="${GIMG[k.replace('v_','p_')]}" autoplay muted loop playsinline aria-label="${c}"></video>`:`<img src="${GIMG[k]}" alt="${c}" loading="lazy">`}<figcaption>${c}</figcaption></figure>`).join("")}</div>`;
   if(t==="timeline")return `<ol class="tline">${v.map(([a,b])=>`<li><i></i><b>${a}</b><span>${b}</span></li>`).join("")}</ol>`;
   if(t==="linkgal")return `<div class="gal lg2">${v.map(([k,c,u])=>`<figure><a class="figlink" href="${u}" target="_blank" rel="noopener"><img src="${GIMG[k]}" alt="${c.replace(' ↗','')}" loading="lazy"></a><figcaption>${c}</figcaption></figure>`).join("")}</div>`;
   if(t==="logos")return `<div class="logorow">${v.map(([k,n,s,bg])=>`<figure><div style="background:${bg}"><img src="${GIMG[k]}" alt="${n} logo, ${s}"></div><figcaption><b>${n}</b>${s}</figcaption></figure>`).join("")}</div>`;
